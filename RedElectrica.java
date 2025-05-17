@@ -10,10 +10,8 @@ public class RedElectrica {
         System.out.println("5.Iniciar  /Detener simulacion de Consumo");
         System.out.println("6.ver y procesar alertas");
         System.out.println("7.Salir");
-        System.out.println("Seleccione una opcion")
-    }
-
-}   
+        System.out.println("Seleccione una opcion");
+    } 
 
     public static void iniciarMenu(Grafo grafo) {
         ColaAlertas alertas = new ColaAlertas(10);
@@ -49,7 +47,7 @@ public class RedElectrica {
                         System.out.println("\n=====ANALISIS GLOBAL DE LA RED (FLOYD-WARSHALL)=====");
                         FloydWarshall floydWarshall = new FloydWarshall();
                         int[][] distancia = FloydWarshall.calcularRutasMinimas(grafo.toMatrix());
-                        System.out.println("\nMatriz de distancia minimas:")
+                        System.out.println("\nMatriz de distancia minimas:");
                         for (int [] fila :distancias){
                             for (int valor :fila){
                                 System.out.println((valor == Integer.MAX_VALUE?"INF":valor)+" ");    
@@ -162,7 +160,7 @@ public class RedElectrica {
         grafo.agregarNodo("H");
         grafo.agregarNodo("I");
 
-        grafo.agregaArista("A", DE",61)
+        grafo.agregaArista("A","D",6);
         grafo.agregaArista("D, "E", 7);
 
         grafo.agregaArista("F, "G", 9);
@@ -177,4 +175,4 @@ public class RedElectrica {
 
 
 }
-
+}
