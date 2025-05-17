@@ -6,7 +6,7 @@ import java.util.Random;
  */
 // Esta clase es responsable de generar un consumo aleatorio para cada nodo en el grafo
 public class SimuladorDeFallos extends Thread {
-    private final Grafo grafo;
+    private final Grafo grafo;  
     private final ColaAlertas alertas;
     private boolean ejecutando = false;
 
@@ -29,9 +29,6 @@ public class SimuladorDeFallos extends Thread {
         start();
     }
 
-   
-
-    
     /*
      * Método run que se ejecuta cuando se inicia el hilo.
      * Este método simula la detección de fallos en los nodos del grafo.
