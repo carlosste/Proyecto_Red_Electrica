@@ -1,6 +1,10 @@
-import java.util; 
+import java.util.Scanner; 
+
 public class RedElectrica {
     
+    /*
+     * Menu de opciones para la gestion de la red electrica.
+     */
     public static void mostrarMenu(){
         System.out.println("\n=====MENU DE GESTION DE RED ELECTRICA =====");
         System.out.println("1.Calcular ruta de menor perdida (Dijkstra)");
@@ -13,6 +17,10 @@ public class RedElectrica {
         System.out.println("Seleccione una opcion");
     } 
 
+    /*
+     * Inicia el menu de gestion de la red electrica.
+     * @param grafo El grafo que representa la red electrica.
+     */
     public static void iniciarMenu(Grafo grafo) {
         ColaAlertas alertas = new ColaAlertas(10);
         SimuladorDeFallos simuladorDeFallos = new SimuladorDeFallos(grafo, alertas);
@@ -26,10 +34,9 @@ public class RedElectrica {
                 scanner.nextLine(); 
 
                 switch (opcion) {
-
                     case 1 -> {
                         System.out.println("\n===== DISTANCIAS ENTRE TODOS LOS NODOS =====");
-                        Dijkstra dijkstra = new Dijkstra(grafo);
+                        Dijkstra dijkstra = new Dijkstra();
                         for (int origen = 0; origen < grafo.getNumeroNodos(); origen++) {
                             int[] distancias = dijkstra.calcularRutaMinima(grafo.toMatrix(), origen);
                             System.out.println("\nDesde el nodo " + grafo.getNodoName(origen) + ":");
@@ -46,9 +53,9 @@ public class RedElectrica {
                     case 2-> {
                         System.out.println("\n=====ANALISIS GLOBAL DE LA RED (FLOYD-WARSHALL)=====");
                         FloydWarshall floydWarshall = new FloydWarshall();
-                        int[][] distancia = FloydWarshall.calcularRutasMinimas(grafo.toMatrix());
+                        int[][] distancias = floydWarshall.calcularDistanciasMinimas(grafo.toMatrix());
                         System.out.println("\nMatriz de distancia minimas:");
-                        for (int [] fila :distancias){
+                        for (int [] fila : distancias){
                             for (int valor :fila){
                                 System.out.println((valor == Integer.MAX_VALUE?"INF":valor)+" ");    
                             }
@@ -62,7 +69,7 @@ public class RedElectrica {
                         System.out.println("Ingrese el nodo de origen: ");
                         String origen = scanner.nextLine();
                         BellmanFord bellmanFord = new BellmanFord();
-                        boolean tieneCiclos = bellmanFord.detectarCiclosNegativos(grafo.toMatrix, grafo.getNodoIndex(origen));
+                        boolean tieneCiclos = bellmanFord.detectarCiclosNegativos(grafo.toMatrix(), grafo.getNodoIndex(origen);
                         if (tieneCiclos) {
                             System.out.println("\nSe detectaron ciclos negativos en la red electrica.");
                         } else {
@@ -125,6 +132,7 @@ public class RedElectrica {
                         System.out.println("Saliendo del programa...");
                         salir = true;
                     }
+                    default -> System.out.println("Opcion invalida. Por favor, seleccione una opcion valida.");
                 }
                     
             }
@@ -141,8 +149,10 @@ public class RedElectrica {
 
         System.out.println("Se han agregado nuevos nodos y conexiones a la red.");
     }
-    default -> System.out.println("Opcion no valida."); 
     
+    /*
+     * Inicia la simulacion de la red electrica.
+     */
     public static void main(String [] args) {
         Grafo grafo = new Grafo();
         grafo.agregarNodo("A");
@@ -161,18 +171,17 @@ public class RedElectrica {
         grafo.agregarNodo("I");
 
         grafo.agregaArista("A","D",6);
-        grafo.agregaArista("D, "E", 7);
+        grafo.agregaArista("D", "E", 7);
 
-        grafo.agregaArista("F, "G", 9);
-        grafo.agregaArista("G, "H", 10);
-        grafo.agregaArista("H, "I", 11);
-        grafo.agregaArista("I, "A", 12);
-        grafo.agregaArista("B, "F", 5);
-        grafo.agregaArista("C, "G", 4);
+        grafo.agregaArista("F", "G", 9);
+        grafo.agregaArista("G", "H", 10);
+        grafo.agregaArista("H", "I", 11);
+        grafo.agregaArista("I", "A", 12);
+        grafo.agregaArista("B", "F", 5);
+        grafo.agregaArista("C", "G", 4);
         
         iniciar(grafo);
     }
 
 
-}
 }
