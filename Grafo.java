@@ -91,22 +91,19 @@ public class Grafo {
         // Inicializar la matriz con infinito
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                matriz[i][j] = Integer.MAX_VALUE; // Inicializar con infinito
-            }
-        }
+               if (i == j) {
+                matriz[i][j] = 0; // La distancia a sí mismo es 0
+               } else {
+                   String origen = getNodos().get(i);
+                   String destino = getNodos().get(j);
+                   Integer peso = adyacencias.get(origen).get(destino);
+                   matriz[i][j] = (peso != null) ? peso : Integer.MAX_VALUE; // Si no hay arista, usar infinito
+               }
+           }
+       }
 
-        // Llenar la matriz con los pesos de las aristas
-        List<String> nodos = new ArrayList<>(adyacencias.keySet());
-        for (int i = 0; i < nodos.size(); i++) {
-            String origen = nodos.get(i);
-            for (Map.Entry<String, Integer> entrada : adyacencias.get(origen).entrySet()) {
-                String destino = entrada.getKey();
-                int peso = entrada.getValue();
-                int j = nodos.indexOf(destino);
-                matriz[i][j] = peso;
-            }
-        }
-        return matriz;
+       return matriz;
+
     }
 
     /**

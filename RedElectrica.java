@@ -86,12 +86,13 @@ public class RedElectrica {
      */
     public static void case1(Grafo grafo) {
         System.out.println("\n===== CALCULO DE RUTA DE MENOR PERDIDA (DIJKSTRA) =====");
+        Scanner scanner = new Scanner(System.in);
+        // Solicitar al usuario los nodos de origen y destino
+        
         System.out.println("Ingrese el nodo de origen: ");
-        Scanner origen = new Scanner(System.in);
-        String nodoOrigen = origen.nextLine().trim().toUpperCase();
+        String nodoOrigen = scanner.nextLine().trim().toUpperCase();
         System.out.println("Ingrese el nodo de destino: ");
-        Scanner destino = new Scanner(System.in);
-        String nodoDestino = destino.nextLine().trim().toUpperCase();
+        String nodoDestino = scanner.nextLine().trim().toUpperCase();
         int origenIndex = grafo.getNodoIndex(nodoOrigen);
         int destinoIndex = grafo.getNodoIndex(nodoDestino);
 
@@ -187,8 +188,6 @@ public class RedElectrica {
 
         BellmanFord bellmanFord = new BellmanFord();
         boolean tieneCiclos = bellmanFord.detectarCiclosNegativos(grafo.toMatrix(), grafo.getNodos());
-        grafo.toMatrix();
-        grafo.getNodos();
 
         if (tieneCiclos) {
             System.out.println("Se han detectado ciclos negativos en la red electrica.");
@@ -316,18 +315,16 @@ public class RedElectrica {
         grafo.agregarNodo("E");
         grafo.agregarNodo("F");
         grafo.agregarNodo("G");
-        grafo.agregarAristaAleatoria("A", "C");
-        grafo.agregarAristaAleatoria("A", "B");
-        grafo.agregarArista("B", "C", -3);
+        grafo.agregarArista("A", "B", 4);
+        grafo.agregarArista("B", "C", 3);
         grafo.agregarArista("C", "A", 2);
         grafo.agregarArista("D", "E", 5);
         grafo.agregarArista("F", "G", 3);
-        grafo.agregarArista("G", "D", -2);
-        grafo.agregarArista("A", "D", -1);
-        grafo.agregarArista("B", "E", -2);
-        grafo.agregarArista("C", "F", 3);
-        grafo.agregarArista("E", "F", 2);
-        grafo.agregarAristaAleatoria("F", "G");
+        grafo.agregarArista("G", "D", 2);
+        grafo.agregarArista("A", "D", 1);
+        grafo.agregarArista("B", "E", 2);
+      
+        
 
         Encabezado.encabezadopgm();
         // iniciar el menu de gestion de la red electrica

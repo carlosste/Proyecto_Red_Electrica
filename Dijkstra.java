@@ -6,6 +6,15 @@ public class Dijkstra {
   // Método principal para calcular la ruta mínima
   public int[] calcularRutaMinima(int[][] grafo, int origen){
 
+     // Validar el grafo
+    for (int i = 0; i < grafo.length; i++) {
+      for (int j = 0; j < grafo[i].length; j++) {
+        if (grafo[i][j] < 0 && grafo[i][j] != Integer.MAX_VALUE) {
+          throw new IllegalArgumentException("El grafo contiene pesos negativos.");
+        }
+      }
+    }
+
     int n = grafo.length;
     int[] distancias = new int[n];
     boolean[] visitado = new boolean[n];
@@ -21,7 +30,7 @@ public class Dijkstra {
         break; // No hay más nodos alcanzables
       visitado[u] = true;
       for (int v = 0; v < n; v++) {
-        if (!visitado[v] && grafo[u][v] != 0 && distancias[u] != Integer.MAX_VALUE && distancias[u] + grafo[u][v] < distancias[v]) {
+        if (!visitado[v] && grafo[u][v] != Integer.MAX_VALUE && distancias[u] != Integer.MAX_VALUE && distancias[u] + grafo[u][v] < distancias[v]) {
           distancias[v] = distancias[u] + grafo[u][v];
         }
       }
@@ -53,14 +62,7 @@ public class Dijkstra {
    */
   public List<Integer> obtenerRuta(int[][] grafo, int origen, int destino) {
 
-    // Validar el grafo
-    for (int i = 0; i < grafo.length; i++) {
-      for (int j = 0; j < grafo[i].length; j++) {
-        if (grafo[i][j] < 0 && grafo[i][j] != Integer.MAX_VALUE) {
-          throw new IllegalArgumentException("El grafo contiene pesos negativos.");
-        }
-      }
-    }
+   
     
     int[] distancias = calcularRutaMinima(grafo, origen);
     int[] predecesores = new int[grafo.length];
