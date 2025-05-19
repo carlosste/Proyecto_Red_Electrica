@@ -2,7 +2,7 @@ import java.util.Random;
 
 // simula fallos aleatorios en nodos de un grafo en un hilo independiente.
 public class SimuladorDeFallos extends Thread {
-    private final Grafo grafo;
+    private final Grafo grafo;  
     private final ColaAlertas alertas;
     private boolean ejecutando = false;
 
