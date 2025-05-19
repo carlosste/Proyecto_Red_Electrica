@@ -1,60 +1,70 @@
-public class ListaEnlazada{
-    private static class Nodo{
-        private String nombre;
-        private Nodo siguiente;
 
-        public Nodo(String nombre){
-            this.nombre = nombre;
-            this.siguiente = null;
-        }
-    }
+public class ListaEnlazada {
     private Nodo cabeza;
 
-    //agregar nodo al final de la lista 
-    public void agregar(String nombre){
+    // agregar nodo al final de la lista
+    public void agregar(String nombre) {
         Nodo nuevoNodo = new Nodo(nombre);
-        if(cabeza == null){
+        if (cabeza == null) {
             cabeza = nuevoNodo;
-        }else{
+        } else {
             Nodo actual = cabeza;
-            while(actual.siguiente != null){
-                actual = actual.siguiente;
+            while (actual.getSiguiente() != null) {
+                actual = actual.getSiguiente();
             }
-            actual.siguiente = nuevoNodo;
+            actual.setSiguiente(nuevoNodo);
         }
     }
-    //imprimir la lista
-    public void imprimir(){
-        Nodo actual = cabeza;
-        while(actual != null){
-            System.out.print(actual.nombre + " ");
-            actual = actual.siguiente;
-        }
-        System.out.println();
-    }
 
-    //Eliminar nodo por nombre
-    public boolean eliminar(String nombre){
-        if(cabeza == null) return false;
+    /*
+     * Método para eliminar un nodo de la lista enlazada
+     * 
+     * 
+     * @return true si el nodo existe, false en caso contrario
+     */
+    public boolean eliminar(String nombre) {
+        if (cabeza == null)
+            return false;
 
-        if(cabeza.nombre.equals(nombre)){
-            cabeza = cabeza.siguiente;
+        if (cabeza.getNombre().equals(nombre)) {
+            cabeza = cabeza.getSiguiente();
             return true;
         }
 
         Nodo actual = cabeza;
-        while(actual.siguiente != null && !actual.siguiente.nombre.equals(nombre)){
-            actual = actual.siguiente;
+        while (actual.getSiguiente() != null && !actual.getSiguiente().getNombre().equals(nombre)) {
+            actual = actual.getSiguiente();
         }
 
-        if(actual.siguiente != null){
-            actual.siguiente = actual.siguiente.siguiente;
+        if (actual.getSiguiente() != null) {
+            actual.setSiguiente(actual.getSiguiente().getSiguiente());
             return true;
         }
         return false;
     }
-    //Verificar si la lista está vacía
-    public boolean estaVacia(){
+
+    public Nodo getCabeza() {
+        return cabeza;
+    }
+
+    /*
+     * Método para imprimir la lista enlazada
+     */
+    public void imprimir() {
+        Nodo actual = cabeza;
+        while (actual != null) {
+            System.out.print(actual.getNombre() + " ");
+            actual = actual.getSiguiente();
+        }
+        System.out.println();
+    }
+
+    /*
+     * Método para saber si un nodo existe en la lista enlazada
+     * 
+     * @return true si el nodo existe, false en caso contrario
+     */
+    public boolean estaVacia() {
         return cabeza == null;
     }
 }

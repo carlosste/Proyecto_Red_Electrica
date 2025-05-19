@@ -1,12 +1,13 @@
 // Este código implementa el algoritmo de Floyd-Warshall para encontrar las distancias mínimas entre todos los pares de vértices en un grafo ponderado.
 public class FloydWarshall {
-    /**
-     * Calcula las distancias mínimas entre todos los pares de vértices en un grafo ponderado.
-     *
-     * @param grafo Matriz de adyacencia del grafo, donde grafo[i][j] es el peso de la arista de i a j.
-     *              Un valor de 0 indica que no hay arista entre i y j (excepto para la diagonal).
-     * @return Matriz de distancias mínimas entre todos los pares de vértices.
-     */
+
+  // El método calcularDistanciasMinimas toma una matriz de adyacencia que
+  // representa un grafo ponderado y devuelve una matriz de distancias mínimas
+  // entre todos los pares de vértices.
+  // La matriz de adyacencia debe contener valores enteros, donde
+  // Integer.MAX_VALUE representa la ausencia de una arista entre dos vértices.
+  // @param grafo La matriz de adyacencia del grafo ponderado.
+
   public int[][] calcularDistanciasMinimas(int[][] grafo) {
     int n = grafo.length;
     int[][] distancias = new int[n][n];
@@ -14,14 +15,9 @@ public class FloydWarshall {
     // Inicializar distancias
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
-        if (i == j) {
-          distancias[i][j] = 0;
-        } else if (grafo[i][j] != 0) {
-          distancias[i][j] = grafo[i][j];
-        } else {
-          distancias[i][j] = Integer.MAX_VALUE;
-        }
+        distancias[i][j] = grafo[i][j]; // Copiar la matriz de adyacencia
       }
+      distancias[i][i] = 0; // La distancia a sí mismo es 0
     }
 
     // Aplicar el algoritmo de Floyd-Warshall

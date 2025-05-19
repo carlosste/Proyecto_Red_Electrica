@@ -19,7 +19,6 @@ public class ColaAlertas {
     public boolean agregarAlerta(String mensaje) {
         if(alertas.size() < limiteMaximo) {
             alertas.add(mensaje);
-            System.out.println("⚠️ Alerta agregada: " + mensaje);
             return true;
         } else {
             System.out.println("⚠️ No se puede agregar la alerta. Limite maximo alcanzado. ");

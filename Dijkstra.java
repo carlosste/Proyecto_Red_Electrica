@@ -1,46 +1,43 @@
-//Implemenatacion del algoritmo de Dijkstra para calcular la ruta de menor perdida
-// en un grafo ponderado. El grafo se representa como una matriz de adyacencia.
-// El algoritmo de Dijkstra es un algoritmo de búsqueda de caminos más cortos
-// que encuentra el camino más corto desde un nodo origen a todos los demás nodos
+//Implementacion del algoritmo de Dijkstra para calcular la ruta de menor perdida
+import java.util.*;
+
 public class Dijkstra {
 
   // Método principal para calcular la ruta mínima
-  public int calcularRutaMinima(int[][] grafo, int origen){
+  public int[] calcularRutaMinima(int[][] grafo, int origen){
 
     int n = grafo.length;
     int[] distancias = new int[n];
     boolean[] visitado = new boolean[n];
 
-    // Inicializar distancias
-    for (int i = 0; i < n; i++) {
-      distancias[i] = Integer.MAX_VALUE;
-      visitado[i] = false;
-    }
+    Arrays.fill(distancias, Integer.MAX_VALUE);
     distancias[origen] = 0;
 
-    for (int i = 0; i< n - 1; i++) {
-      int u = seleccionarNodoMinimo(distancias, visitado);
-      visitado[u] = true;
 
+    // Inicializar distancias
+    for (int i = 0; i < n - 1; i++) {
+      int u = minDistancia(distancias, visitado);
+      if (u == -1) 
+        break; // No hay más nodos alcanzables
+      visitado[u] = true;
       for (int v = 0; v < n; v++) {
-        if (!visitado[v] && grafo[u][v] != 0 && distancias[u] != Integer.MAX_VALUE) {
-          distancias[v] = Math.min(distancias[v], distancias[u] + grafo[u][v]);
+        if (!visitado[v] && grafo[u][v] != 0 && distancias[u] != Integer.MAX_VALUE && distancias[u] + grafo[u][v] < distancias[v]) {
+          distancias[v] = distancias[u] + grafo[u][v];
         }
       }
     }
-    // Por ejemplo, retorna la distancia mínima desde el origen a todos los nodos sumada
-    int sumaDistancias = 0;
-    for (int i = 0; i < n; i++) {
-      if (distancias[i] != Integer.MAX_VALUE) {
-        sumaDistancias += distancias[i];
-      }
-    }
-    return sumaDistancias;
+    return distancias;
   }
-  private int seleccionarNodoMinimo(int[] distancias, boolean[] visitado) {
+
+  /*
+   * Método auxiliar para encontrar el índice del nodo con la distancia mínima
+   * que no ha sido visitado.
+   */
+  // Devuelve el índice del nodo con la distancia mínima
+  private int minDistancia(int[] distancias, boolean[] visitado) {
     int min = Integer.MAX_VALUE;
     int minIndex = -1;
-    // Encontrar el nodo con la distancia mínima
+
     for (int i = 0; i < distancias.length; i++) {
       if (!visitado[i] && distancias[i] <= min) {
         min = distancias[i];
@@ -49,4 +46,57 @@ public class Dijkstra {
     }
     return minIndex;
   }
+
+  /*
+   * Método para obtener la ruta de menor pérdida entre dos nodos en el grafo.
+   * Devuelve una lista de enteros que representan los nodos en la ruta.
+   */
+  public List<Integer> obtenerRuta(int[][] grafo, int origen, int destino) {
+
+    // Validar el grafo
+    for (int i = 0; i < grafo.length; i++) {
+      for (int j = 0; j < grafo[i].length; j++) {
+        if (grafo[i][j] < 0 && grafo[i][j] != Integer.MAX_VALUE) {
+          throw new IllegalArgumentException("El grafo contiene pesos negativos.");
+        }
+      }
+    }
+    
+    int[] distancias = calcularRutaMinima(grafo, origen);
+    int[] predecesores = new int[grafo.length];
+    Arrays.fill(predecesores, -1);
+    boolean[] visitado = new boolean[grafo.length];
+
+    PriorityQueue<Integer> cola = new PriorityQueue<>((a, b) -> Integer.compare(distancias[a], distancias[b]));
+    cola.add(origen);
+
+    // Inicializar la distancia del nodo origen
+    while (!cola.isEmpty()) {
+      int u = cola.poll();
+      visitado[u] = true;
+      // Si hemos llegado al destino, salimos del bucle
+      for (int v = 0; v < grafo.length; v++) {
+        if (grafo[u][v] != Integer.MAX_VALUE && !visitado[v]) {
+          if (distancias[u] + grafo[u][v] == distancias[v]) {
+            predecesores[v] = u;
+            cola.add(v);
+          }
+        }
+      }
+    }
+
+    // Reconstruir la ruta desde el nodo de destino
+    List<Integer> ruta = new ArrayList<>();
+    for (int v = destino; v != -1; v = predecesores[v]) {
+      ruta.add(v);
+    }
+
+    Collections.reverse(ruta);
+    
+    if (ruta.size() == 1 && ruta.get(0) != origen) {
+      return new ArrayList<>(); // No hay ruta
+    }
+    return ruta;
+  }
+
 }
